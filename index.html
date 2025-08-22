@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareerDraft Resume Builder</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <h1>CareerDraft Resume Builder</h1>
+      </div>
+      <div class="progress" aria-label="Form completion progress"><div id="progressBar" class="bar"></div></div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- FORM SIDE -->
+    <section class="card form-card" aria-label="Resume form">
+      <div class="body">
+        <h2>Fill Your Details</h2>
+        <form id="form">
+          <label>Name</label>
+          <input id="name" placeholder=" Full Name with Title " required>
+          <div class="row">
+            <div>
+              <label>Title</label>
+              <input id="title" placeholder="Your Designation">
+            </div>
+            <div>
+              <label>Location</label>
+              <input id="location" placeholder="City/State/Country">
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Email</label>
+              <input id="email" placeholder="you@example.com" type="email">
+            </div>
+            <div>
+              <label>Phone</label>
+              <input id="phone" placeholder="(+91) 1234567890">
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Website</label>
+              <input id="website" placeholder="https://your.site">
+            </div>
+            <div>
+              <label>LinkedIn / GitHub</label>
+              <input id="social" placeholder="linkedin.com/in/you | github.com/you">
+            </div>
+          </div>
+          <label>About</label>
+          <textarea id="summary" rows="4" placeholder="Write down your Professional"></textarea>
+          <label>Skills (press Enter to add)</label>
+          <div id="skillsInput" class="tag-input">
+            <input id="skillEntry" placeholder="e.g., Java, React, SQL" style="flex:1; background:transparent; border:none; color:var(--text)">
+          </div>
+          <h2 style="margin-top:18px">Education</h2>
+          <div id="eduList" class="repeaters"></div>
+          <div class="actions">
+            <button type="button" class="btn ghost" id="addEdu">+ Add Education</button>
+          </div>
+          <h2 style="margin-top:18px">Experience</h2>
+          <div id="expList" class="repeaters"></div>
+          <div class="actions">
+            <button type="button" class="btn ghost" id="addExp">+ Add Experience</button>
+          </div>
+          <div class="actions">
+            <button type="button" class="btn primary" id="printBtn">Download PDF</button>
+            <button type="reset" class="btn danger" id="clearBtn">Clear All</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- PREVIEW SIDE -->
+    <section class="card">
+      <div class="preview-wrap">
+        <div id="paper" class="paper" aria-live="polite">
+          <div class="px">
+            <div class="hdr">
+              <div>
+                <div id="pName" class="name">Your Name</div>
+                <div id="pTitle" class="title">Your Title</div>
+              </div>
+              <div class="contacts" id="pContacts">email@example.com · (+91) 00000 00000 · City . yoursite.com</div>
+            </div>
+            <div id="pSummarySec" class="section" style="display:none">
+              <h3>ABOUT</h3>
+              <div id="pSummary"></div>
+            </div>
+            <div id="pSkillsSec" class="section" style="display:none">
+              <h3>SKILLS</h3>
+              <div id="pSkills" class="skill-list"></div>
+            </div>
+            <div id="pExpSec" class="section" style="display:none">
+              <h3>EXPERIENCE</h3>
+              <div id="pExp"></div>
+            </div>
+            <div id="pEduSec" class="section" style="display:none">
+              <h3>EDUCATION</h3>
+              <div id="pEdu"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- EDUCATION TEMPLATE -->
+  <template id="eduT">
+    <div class="repeater edu">
+      <div class="row">
+        <div>
+          <label>Institution</label>
+          <input class="i-school" placeholder="College / University">
+        </div>
+        <div>
+          <label>Degree / Program</label>
+          <select class="i-degree">
+            <option value="">Select Degree</option>
+            <option>B.Tech</option>
+            <option>M.Tech</option>
+            <option>B.Sc</option>
+            <option>M.Sc</option>
+            <option>BCA</option>
+            <option>MCA</option>
+            <option>PhD</option>
+            <option>Diploma</option>
+            <option>12th Board Exam</option>
+            <option>10th Board Exam</option>
+            <option>Higher Secondary</option>
+            <option>Secondary</option>
+            <option>Other</option>
+          </select>
+          <!-- Hidden input shown only when "Other" is selected -->
+          <input class="i-degree-other" placeholder="Enter your degree/program" style="display:none; margin-top:6px;">
+        </div>
+        <div>
+          <label>Specialization</label>
+          <input class="i-specialization" placeholder="Specialized Domain">
+        </div>
+      </div>
+      <div class="row-3">
+        <div>
+          <label>Start</label>
+          <select class="i-start">
+            <option value="">Select Start Date</option>
+          </select>
+        </div>
+        <div>
+        <label>End</label>
+        <input class="i-end" placeholder="End Date / Present">
+        </div>
+        <div>
+          <label>Score (Percentage / CGPA)</label>
+          <input class="i-score" placeholder="Percentage / CGPA">
+        </div>
+      </div>
+      <label>Highlights (comma separated)</label>
+      <input class="i-highlights" placeholder="Coursework: DS, DBMS, OS, etc.">
+      <div class="actions">
+        <button type="button" class="btn soft remove">Remove</button>
+      </div>
+    </div>
+  </template>
+
+  <!-- EXPERIENCE TEMPLATE -->
+  <template id="expT">
+    <div class="repeater exp">
+      <div class="row">
+        <div>
+            <label>Role / Position</label>
+            <select class="i-role">
+                <option value="">Select Role</option>
+                <option>Software Engineer</option>
+                <option>Frontend Developer</option>
+                <option>Backend Developer</option>
+                <option>Full Stack Developer</option>
+                <option>Intern</option>
+                <option>Other</option>
+            </select>
+            <input class="i-role-other" placeholder="Enter your role/position" style="display:none; margin-top:6px;">
+        </div>
+        <div>
+          <label>Company</label>
+          <input class="x-company" placeholder="Tech.Co">
+        </div>
+      </div>
+      <div class="row-3">
+        <div>
+          <label>Start</label>
+          <select class="i-start">
+            <option value="">Select Start Date</option>
+          </select>
+        </div>
+        <div>
+          <label>End</label>
+          <select class="i-end">
+            <option value="">Select End Date</option>
+            <option>Present</option>
+          </select>
+        </div>
+        <div>
+          <label>Location</label>
+          <input class="x-loc" placeholder="City / State">
+        </div>
+      </div>
+      <label>Achievements (one per line)</label>
+      <textarea class="x-bul" rows="3" placeholder="• Built a full-stack CRUD app with authentication 
+• Improved booking flow and reduced errors
+• Stack: HTML, CSS, JS"></textarea>
+      <div class="actions">
+        <button type="button" class="btn soft remove">Remove</button>
+      </div>
+    </div>
+  </template>
+  <!-- SKILLS TEMPLATE -->
+  <template id="skillT">
+  <div class="repeater skill">
+    <label>Skill Category</label>
+    <select class="i-skill">
+      <option value="">Select Skill</option>
+      <option>Programming Languages</option>
+      <option>Frameworks</option>
+      <option>Databases</option>
+      <option>Tools</option>
+      <option>Soft Skills</option>
+      <option>Other</option>
+    </select>
+    <!-- Hidden input for "Other" -->
+    <input class="i-skill-other" placeholder="Enter custom skill" style="display:none; margin-top:6px;">
+    <label>Details</label>
+    <input class="i-skill-detail" placeholder="e.g., Python, React, MySQL">
+    <div class="actions">
+      <button type="button" class="btn soft remove">Remove</button>
+    </div>
+  </div>
+  </template>
+  <script src="script.js"></script>
+</body>
+</html>
